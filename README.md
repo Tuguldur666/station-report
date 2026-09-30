@@ -15,6 +15,9 @@ Migrated from the single-file prototype `Station report builder.html` to a profe
 index.html                  # Vite entry
 vite.config.ts
 tsconfig.json / tsconfig.node.json
+render.yaml                 # Render Blueprint (static site)
+.node-version               # Node version used by Render builds
+package-lock.json
 src/
   main.tsx                  # React bootstrap
   App.tsx                   # state + layout
@@ -35,7 +38,7 @@ Station report builder.html # legacy prototype (kept for reference)
 
 ## Run
 
-Requires Node.js 20+ (not currently installed on this machine).
+Requires Node.js 22+.
 
 ```powershell
 npm install
@@ -43,6 +46,27 @@ npm run dev      # local dev
 npm run build    # type-check + production build
 npm run preview  # preview dist/
 ```
+
+## Deploy to Render
+
+The app is fully client-side, so it deploys as a Render **Static Site** (free, CDN-served). `render.yaml` at the repo root holds the whole config:
+
+| Setting | Value |
+| --- | --- |
+| Runtime | `static` |
+| Build command | `npm ci && npm run build` |
+| Publish path | `./dist` |
+| Rewrite | `/*` → `/index.html` (SPA fallback) |
+| Headers | long-lived `Cache-Control` on `/assets/*`, `X-Content-Type-Options`, `Referrer-Policy` |
+
+Two ways to create it:
+
+1. **Blueprint (recommended)** — push `render.yaml` to the repo, then in Render choose *New → Blueprint* and select the repo. Everything is filled in automatically.
+2. **Manual** — *New → Static Site*, then set build command `npm ci && npm run build`, publish path `dist`, and add the rewrite rule `/*` → `/index.html` under *Redirects/Rewrites*.
+
+Node version comes from `.node-version` (currently `22`); `engines.node` in `package.json` documents the local requirement. `package-lock.json` must stay committed — the build uses `npm ci`.
+
+`npm audit` reports 2 advisories in the Vite/esbuild **dev** toolchain. They affect only `npm run dev` and don't reach the published bundle; fixing them requires a Vite 6+ major upgrade.
 
 ## Logic notes
 
