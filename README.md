@@ -31,7 +31,9 @@ src/
     MessageInput.tsx        # step 1: paste messages
     DetailsForm.tsx         # step 2: manual fields
     ChecksPanel.tsx
-    ReportPreview.tsx       # printable Form No. 10
+    ReportPreview.tsx       # printable Form No. 10 (1:1 port of the prototype layout)
+  assets/
+    miat-logo.png           # header logo, extracted from the prototype
   index.css                 # theme + form + print styles
 Station report builder.html # legacy prototype (kept for reference)
 ```
