@@ -249,6 +249,11 @@ button.secondary {
 }
 
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm;
+  }
+
   .app-header,
   .controls,
   .no-print {
@@ -261,6 +266,15 @@ button.secondary {
   section.card.preview {
     border: 0;
     padding: 0;
+  }
+  .form {
+    border: 0;
+    padding: 0;
+    overflow: visible;
+  }
+  .form table {
+    min-width: 0;
+    break-inside: avoid;
   }
   body {
     background: #fff;
