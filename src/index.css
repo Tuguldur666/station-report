@@ -1,0 +1,268 @@
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f3f5f7;
+  --pn: #fff;
+  --ink: #1b2733;
+  --mut: #5d6b78;
+  --ln: #c9d2da;
+  --ac: #0d5c63;
+  --ok: #1d7a3e;
+  --wn: #a86200;
+  --er: #b3261e;
+  --wnb: #fff4e0;
+  --erb: #fdeceb;
+  --okb: #e8f5ec;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #12181e;
+    --pn: #1b242c;
+    --ink: #e6ecf1;
+    --mut: #93a1ad;
+    --ln: #33424e;
+    --ac: #5cc4cc;
+    --ok: #6fd08c;
+    --wn: #f0b45a;
+    --er: #ff8a80;
+    --wnb: #3a2c12;
+    --erb: #3d1a18;
+    --okb: #16321f;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #12181e;
+  --pn: #1b242c;
+  --ink: #e6ecf1;
+  --mut: #93a1ad;
+  --ln: #33424e;
+  --ac: #5cc4cc;
+  --ok: #6fd08c;
+  --wn: #f0b45a;
+  --er: #ff8a80;
+  --wnb: #3a2c12;
+  --erb: #3d1a18;
+  --okb: #16321f;
+}
+
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 14px/1.45 'IBM Plex Sans', Arial, sans-serif;
+}
+
+.app-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--ln);
+  background: var(--pn);
+}
+
+.app-header h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.app-header p {
+  margin: 2px 0 0;
+  color: var(--mut);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 420px) 1fr;
+  gap: 14px;
+  padding: 14px;
+  max-width: 1300px;
+  margin: auto;
+}
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: var(--pn);
+  border: 1px solid var(--ln);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.card h2 {
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  color: var(--mut);
+  margin: 6px 0 2px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  font: inherit;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--ln);
+  border-radius: 4px;
+  padding: 6px;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+button:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 1px;
+}
+
+textarea {
+  font: 12px/1.3 ui-monospace, Menlo, Consolas, monospace;
+  min-height: 190px;
+}
+
+.row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.row-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+button {
+  font: inherit;
+  font-weight: 600;
+  background: var(--ac);
+  color: var(--bg);
+  border: 0;
+  border-radius: 4px;
+  padding: 8px 14px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+button.secondary {
+  background: transparent;
+  color: var(--ac);
+  border: 1px solid var(--ac);
+}
+
+.button-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chk {
+  padding: 6px 8px;
+  border-radius: 4px;
+  margin: 4px 0;
+  font-size: 13px;
+  border-left: 4px solid;
+}
+
+.chk.ok {
+  background: var(--okb);
+  border-color: var(--ok);
+}
+
+.chk.wn {
+  background: var(--wnb);
+  border-color: var(--wn);
+}
+
+.chk.er {
+  background: var(--erb);
+  border-color: var(--er);
+}
+
+/* Printable Form No. 10 — layout intentionally unchanged from prototype. */
+.form {
+  background: #fff;
+  color: #111;
+  border: 1px solid #888;
+  padding: 8px;
+  font: 11px/1.3 Arial, sans-serif;
+  overflow-x: auto;
+}
+
+.form table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 640px;
+  margin-bottom: 5px;
+}
+
+.form td,
+.form th {
+  border: 1px solid #333;
+  padding: 3px 5px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.form th {
+  background: #e9edf0;
+  font-weight: 600;
+}
+
+.form td.l {
+  text-align: left;
+}
+
+.form h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.form .ft {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  margin-top: 6px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+@media print {
+  .app-header,
+  .controls,
+  .no-print {
+    display: none !important;
+  }
+  .layout {
+    display: block;
+    padding: 0;
+  }
+  section.card.preview {
+    border: 0;
+    padding: 0;
+  }
+  body {
+    background: #fff;
+  }
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Station report builder</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f3f5f7;--pn:#fff;--ink:#1b2733;--mut:#5d6b78;--ln:#c9d2da;--ac:#0d5c63;--ok:#1d7a3e;--wn:#a86200;--er:#b3261e;--wnb:#fff4e0;--erb:#fdeceb;--okb:#e8f5ec}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12181e;--pn:#1b242c;--ink:#e6ecf1;--mut:#93a1ad;--ln:#33424e;--ac:#5cc4cc;--ok:#6fd08c;--wn:#f0b45a;--er:#ff8a80;--wnb:#3a2c12;--erb:#3d1a18;--okb:#16321f}}
+:root[data-theme="dark"]{--bg:#12181e;--pn:#1b242c;--ink:#e6ecf1;--mut:#93a1ad;--ln:#33424e;--ac:#5cc4cc;--ok:#6fd08c;--wn:#f0b45a;--er:#ff8a80;--wnb:#3a2c12;--erb:#3d1a18;--okb:#16321f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "IBM Plex Sans",Arial,sans-serif}
+header{padding:14px 18px;border-bottom:1px solid var(--ln);background:var(--pn)}
+h1{font-size:18px;margin:0}header p{margin:2px 0 0;color:var(--mut)}
+main{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:14px;padding:14px;max-width:1300px;margin:auto}
+@media(max-width:860px){main{grid-template-columns:1fr}}
+section{background:var(--pn);border:1px solid var(--ln);border-radius:6px;padding:12px;margin-bottom:12px}
+h2{font-size:14px;margin:0 0 8px}
+label{display:block;font-size:12px;color:var(--mut);margin:6px 0 2px}
+input,textarea,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--ln);border-radius:4px;padding:6px}
+input:focus,textarea:focus,select:focus,button:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
+textarea{font:12px/1.3 ui-monospace,Menlo,Consolas,monospace;min-height:190px}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.r4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+button{font:inherit;font-weight:600;background:var(--ac);color:var(--bg);border:0;border-radius:4px;padding:8px 14px;cursor:pointer;margin-top:8px}
+button.s{background:transparent;color:var(--ac);border:1px solid var(--ac)}
+.chk{padding:6px 8px;border-radius:4px;margin:4px 0;font-size:13px;border-left:4px solid}
+.chk.ok{background:var(--okb);border-color:var(--ok)}.chk.wn{background:var(--wnb);border-color:var(--wn)}.chk.er{background:var(--erb);border-color:var(--er)}
+.form{background:#fff;color:#111;border:1px solid #888;padding:8px;font:11px/1.3 Arial,sans-serif;overflow-x:auto}
+.form table{border-collapse:collapse;width:100%;min-width:640px;margin-bottom:5px}
+.form td,.form th{border:1px solid #333;padding:3px 5px;text-align:center;vertical-align:middle}
+.form th{background:#e9edf0;font-weight:600}.form td.l{text-align:left}
+.form h3{margin:0 0 4px;font-size:15px;display:flex;justify-content:space-between}
+.form .ft{display:flex;justify-content:space-between;font-size:10px;margin-top:6px;gap:8px;flex-wrap:wrap}
+@media print{header,.ctl,.no{display:none!important}main{display:block;padding:0}section.pv{border:0;padding:0}body{background:#fff}}
+</style></head><body>
+<header><h1>Station report builder</h1><p>Paste the LDM, CPM and MVT text. The form fills itself and is checked before printing. Prototype: layout follows Form No. 10, revision 15-Jul-2022, unchanged.</p></header>
+<main>
+<div class="ctl">
+<section><h2>1. Paste messages</h2>
+<textarea id="msg" spellcheck="false"></textarea>
+<button id="go">Read messages</button> <button class="s" id="rs">Reset sample</button></section>
+<section><h2>2. Complete the rest</h2>
+<div class="r2"><div><label>Date</label><input id="date" value="27-Sep-26"></div><div><label>Station manager</label><input id="mgr" value="NAIL.KIM"></div></div>
+<div class="r2"><div><label>Door close (H:MM)</label><input id="dc" value="5:10"></div><div><label>ETA on form (H:MM)</label><input id="eta" value="8:32"></div></div>
+<label>Delay information</label><input id="delay" value="NIL">
+<label>Passenger zones 0A / 0B / 0C / 0D</label>
+<div class="r4"><input id="z0" value="7"><input id="z1" value="97"><input id="z2" value="51"><input id="z3" value="0"></div>
+<label>Special passenger info</label><input id="sph" value="WCHR 3PAX (31G,34K,36D), PETC 1DOG (59K)">
+<div class="r2"><div><label>Excess bag pcs (text)</label><input id="xp" value="2ND/7EA 3RD/0EA"></div><div><label>Excess bag kgs</label><input id="xk" value="2EA"></div></div>
+<label>Baggage remarks</label><input id="brem" value="BBST 3PCS (OM680337, OM680365, OM680587)">
+<div class="r2"><div><label>Cargo pieces</label><input id="cp" value=""></div><div><label>Cargo remarks</label><input id="crem" value="// NOTOC YES // RNG/ROX #13P"></div></div>
+<div class="r4"><div><label>Remained</label><input id="f1" value="1200"></div><div><label>Uplift</label><input id="f2" value="35000"></div><div><label>Trip fuel</label><input id="f3" value="16371"></div><div><label>Block fuel</label><input id="f4" value="36200"></div></div>
+<label>Departed ULDs to print</label><select id="dsel"><option value="B">Baggage ULDs only (current practice)</option><option value="A">All ULDs in CPM</option></select>
+<label>Other info</label><input id="oth" value="NIL">
+<button id="pr">Print / save as PDF</button></section></div>
+<div><section><h2>Checks</h2><div id="chk"></div></section>
+<section class="pv"><h2 class="no">Report preview</h2><div class="form" id="pv"></div></section></div>
+</main>
+<script>
+const SAMPLE=`MVT
+OM301/27.EIUBN.ICN
+AA0322/0327
+
+CPM
+OM301/27.EIUBN
+-11P/PMC00005OM/ICN/1080/X
+-22L/AKE20124OM/ICN/672/BT0-22R/AKE11119OM/ICN/391/BJ0
+-23L/AKE11107OM/ICN/655/BY0-23R/AKE11130OM/ICN/505/BJ
+-24L/AKE11113OM/ICN/655/BY0-24R/AKE20101OM/ICN/646/BY0
+-25L/AKE20108OM/ICN/646/BY0-25R/AKE11120OM/ICN/660/BY0
+
+MVT
+OM302/27.EIUBN.ICN
+AD0514/0532 EA0843 UBN
+
+LDM
+OM302/27.EIUBN.J30Y262.3/11
+-UBN.142/13/4.0.T23481.1/5954.2/5980.3/7114.4/4095.5/338
+.PAX/7/148.PAD/0/5.RNG/13P
+SI UBN FRE 18903 BAG 3063 POS 0
+CHECKED BAGGAGE PIECES UBN 4/Y/144 5/J/6/Y/9
+
+CPM
+OM302/27.EIUBN
+-11P/PMC20070OM/UBN/1998/C
+-12P/PMC11114OM/UBN/1570/C
+-13P/PMC20216OM/UBN/2386/C.RNG
+-21P/PMC20250OM/UBN/1720/C
+-22P/PMC11133OM/UBN/2174/C
+-23P/PMC11113OM/UBN/2086/C
+-31P/PMC20215OM/UBN/1724/C
+-32P/PMC20228OM/UBN/1502/C
+-33P/PMC20228OM/UBN/3888/C
+-42L/AKE20114OM/UBN/842/BY0-42R/AKE11103OM/UBN/586/BY0
+-43L/AKE20105OM/UBN/766/BY0-43R/AKE11118OM/UBN/813/BY0
+-44L/AKE20117OM/UBN/534/C-44R/AKE20140OM/UBN/554/C
+-5/UBN/167/BJ/171/BY/100/E`;
+const $=i=>document.getElementById(i);let P={};
+const hm=s=>s?(+s.slice(0,2))+':'+s.slice(2):'';
+const ULD=/(\d\d[LRP])\/([A-Z]{3}\d{5}OM)\/[A-Z]{3}\/(\d+)\/?([A-Z])/g;
+function parse(t){
+ const o={},b=t.split(/\n\s*\n/).map(x=>x.trim());
+ let m=t.match(/AA(\d{4})\/(\d{4})/);if(m){o.land=hm(m[1]);o.onb=hm(m[2])}
+ m=t.match(/AD(\d{4})\/(\d{4})\s+EA(\d{4})/);if(m){o.off=hm(m[1]);o.to=hm(m[2]);o.ea=hm(m[3])}
+ m=t.match(/^(OM\d+)\/\d+\.(\w+)\.J(\d+)Y(\d+)/m);if(m){o.fl=m[1];o.reg=m[2];o.seats=+m[3]+ +m[4]}
+ m=t.match(/^-([A-Z]{3})\.(\d+)\/(\d+)\/(\d+)\.\d+\.T(\d+)/m);if(m){o.dest=m[1];o.ad=+m[2];o.ch=+m[3];o.inf=+m[4];o.tot=+m[5]}
+ m=t.match(/PAX\/(\d+)\/(\d+)/);if(m){o.C=+m[1];o.Y=+m[2]}
+ m=t.match(/FRE\s+(\d+)\s+BAG\s+(\d+)\s+POS\s+(\d+)/);if(m){o.fre=+m[1];o.bag=+m[2];o.pos=+m[3]}
+ m=t.match(/CHECKED BAGGAGE PIECES\s+\w+\s+(.*)/);if(m){o.pcs=[...m[1].matchAll(/[A-Z]\/(\d+)/g)].reduce((a,x)=>a+ +x[1],0)}
+ o.dg=[...t.matchAll(/\.(R[A-Z]{2})\/(\w+)/g)].map(x=>x[1]);
+ o.arr=[];o.dep=[];
+ b.filter(x=>x.startsWith('CPM')).forEach(x=>{
+  const f=(x.match(/OM\d+/)||[])[0],l=[...x.matchAll(ULD)].map(y=>({id:y[2],w:+y[3],t:y[4]}));
+  if(f===o.fl)o.dep=l;else o.arr=l});
+ return o}
+function v(i){return $(i).value.trim()}
+function render(){
+ const o=P,n=i=>+v(i)||0,k=[];
+ const add=(c,s)=>k.push([c,s]);
+ if(!o.fl){add('er','Nothing parsed yet. Paste the messages and press "Read messages".')}
+ else{
+  const pax=o.C+o.Y;
+  add(o.ad+o.ch===pax?'ok':'er',`Passengers: ${o.ad} adults + ${o.ch} children = ${o.ad+o.ch}; C ${o.C} + Y ${o.Y} = ${pax}.`);
+  const z=n('z0')+n('z1')+n('z2')+n('z3');
+  add(z===pax?'ok':'er',`Zone total ${z} ${z===pax?'matches':'does not match'} passengers ${pax}.`);
+  add(!o.ea||v('eta')===o.ea?'ok':'wn',`ETA on form ${v('eta')} ${v('eta')===o.ea?'matches':'differs from'} MVT estimate ${o.ea}.`);
+  add(n('f1')+n('f2')===n('f4')?'ok':'er',`Fuel: remained + uplift = ${n('f1')+n('f2')}; block fuel ${n('f4')}.`);
+  add(v('cp')?'ok':'wn',v('cp')?'Cargo pieces entered.':'Cargo pieces are blank.');
+  const bad=v('crem').match(/\b(R[A-Z]{2})\b/g)||[],miss=(v('crem').match(/R[A-Z]{2}/g)||[]);
+  const codes=[...v('crem').matchAll(/([A-Z]{3})(?=[\/ ]|$)/g)].map(x=>'R'+x[1].slice(1)==x[1]?x[1]:null).filter(Boolean).concat((v('crem').match(/RNG|ROX|RFL|RCM|RRY|RCL|RFW|RPB|RMD|RCX|RGX/g)||[]));
+  const uq=[...new Set(codes)],nf=uq.filter(c=>!o.dg.includes(c));
+  add(nf.length?'wn':'ok',nf.length?`Cargo remarks list ${nf.join(', ')}, but the CPM shows only ${o.dg.join(', ')||'none'}.`:`Dangerous goods codes agree with the CPM (${o.dg.join(', ')||'none'}).`);
+  const tare=o.tot-(o.fre+o.bag+o.pos);
+  add('ok',`LDM gross ${o.tot} kg - net ${o.fre+o.bag+o.pos} kg = ${tare} kg implied ULD tare across ${o.dep.length} ULDs.`);
+  add(o.dep.length>0?'ok':'wn',`Bags: ${o.pcs} pieces, ${o.bag} kg. Load factor ${(pax/o.seats*100).toFixed(0)}% of ${o.seats} seats.`);
+  const dl=dl_();add(dl.length>13?'er':(o.dep.length!==dl.length?'wn':'ok'),`CPM has ${o.dep.length} departing ULDs; ${dl.length} will print (form has 13 rows).`)}
+ $('chk').innerHTML=k.map(x=>`<div class="chk ${x[0]}">${x[1]}</div>`).join('');
+ pv()}
+function dl_(){return (v('dsel')==='B'?(P.dep||[]).filter(u=>u.t==='B'):(P.dep||[]))}
+const e=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function pv(){
+ const o=P.fl?P:{};const A=(o.arr||[]).map(u=>u.id),D=dl_().map(u=>u.id);
+ let rows='';for(let i=0;i<13;i++)rows+=`<tr><td style="background:#ddd"></td><td>${A[i]||''}</td><td>${D[i]||''}</td><td style="background:#ddd"></td><td></td></tr>`;
+ $('pv').innerHTML=`<h3><span>STATION REPORT</span><span>MIAT Mongolian Airlines</span></h3>
+<table><tr><th>Date</th><th>Flight Number</th><th>A/C Registration</th><th>Station Manager</th></tr><tr><td>${e(v('date'))}</td><td>${e(o.fl)}</td><td>${e(o.reg)}</td><td>${e(v('mgr'))}</td></tr></table>
+<table><tr><th>Landing</th><th>On block</th><th>Door close</th><th>Off block</th><th>Take off</th><th>ETA</th></tr><tr><td>${e(o.land)}</td><td>${e(o.onb)}</td><td>${e(v('dc'))}</td><td>${e(o.off)}</td><td>${e(o.to)}</td><td>${e(v('eta'))}</td></tr><tr><th>Delay Information</th><td colspan=5>${e(v('delay'))}</td></tr></table>
+<table><tr><th rowspan=2>Destination</th><th colspan=2>Class</th><th rowspan=2>Adult</th><th rowspan=2>Child</th><th rowspan=2>Infant</th><th colspan=4>Passenger distribution</th></tr><tr><th>C</th><th>Y</th><th>0A</th><th>0B</th><th>0C</th><th>0D</th></tr>
+<tr><td>${e(o.dest)}</td><td>${e(o.C)}</td><td>${o.Y!=null?o.Y+'+'+o.inf+'INF':''}</td><td>${e(o.ad)}</td><td>${e(o.ch)}</td><td>${e(o.inf)}</td><td>${e(v('z0'))}</td><td>${e(v('z1'))}</td><td>${e(v('z2'))}</td><td>${e(v('z3'))}</td></tr><tr><th>Special passenger info</th><td class=l colspan=9>${e(v('sph'))}</td></tr></table>
+<table><tr><th rowspan=2>Baggage [Net weight]</th><th colspan=2>Total</th><th colspan=2>Excess bag</th><th rowspan=2>Remarks</th></tr><tr><th>Pcs</th><th>Kgs</th><th>Pcs</th><th>Kgs</th></tr><tr><td>${e(o.dest)}</td><td>${e(o.pcs)}</td><td>${e(o.bag)}</td><td>${e(v('xp'))}</td><td>${e(v('xk'))}</td><td>${e(v('brem'))}</td></tr></table>
+<table><tr><th>Cargo [Net weight]</th><th>Pcs</th><th>Kgs</th><th>Remarks</th></tr><tr><td>${e(o.dest)}</td><td>${e(v('cp'))}</td><td>${e(o.fre)}</td><td>${e(v('crem'))}</td></tr>
+<tr><th>Mail [Net weight]</th><th>Pcs</th><th>Kgs</th><th>Remarks</th></tr><tr><td>${e(o.dest)}</td><td></td><td>${e(o.pos)}</td><td>${o.pos===0?'NIL':''}</td></tr></table>
+<table><tr><th>Fuel</th><th>Remained</th><th>Uplift</th><th>Trip fuel</th><th>Block fuel</th><th>Remarks</th></tr><tr><td></td><td>${e(v('f1'))}</td><td>${e(v('f2'))}</td><td>${e(v('f3'))}</td><td>${e(v('f4'))}</td><td>NIL</td></tr></table>
+<table><tr><th>Previous stock</th><th>Arrived</th><th>Departed</th><th>Stock after flight</th><th>Missing or damage info</th></tr>${rows}</table>
+<table><tr><th style="width:110px">Other info</th><td>${e(v('oth'))}</td></tr></table>
+<div class="ft"><span>Revision Date: 15-Jul-2022<br>Form No: 10</span><span>FLIGHT OPERATIONS CONTROL AND<br>ENGINEERING DEPARTMENT</span><span>Revision by: Enkhsaikhan S.<br>Approved by: Gantulga E.</span></div>`}
+function go(){P=parse($('msg').value);render()}
+$('go').onclick=go;$('pr').onclick=()=>window.print();
+$('rs').onclick=()=>{$('msg').value=SAMPLE;go()};
+document.querySelectorAll('input,select').forEach(x=>x.addEventListener('input',render));
+$('msg').value=SAMPLE;go();
+</script></body></html>
