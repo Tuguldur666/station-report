@@ -206,6 +206,8 @@ button.secondary {
   padding: 10px;
   font: 11px/1.25 Arial, Helvetica, sans-serif;
   overflow-x: auto;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
 }
 
 .form > * {
@@ -227,11 +229,11 @@ button.secondary {
 .form td,
 .form th {
   border: 1px solid #000;
-  padding: 1px 3px;
+  padding: 2px 4px;
   text-align: center;
   vertical-align: middle;
   font-weight: 400;
-  height: 15px;
+  height: 17px;
   overflow: hidden;
 }
 
@@ -264,13 +266,13 @@ button.secondary {
 .hd {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 6px;
-  font-size: 11px;
+  align-items: center;
+  margin: 2px 0 10px;
+  font-size: 12px;
 }
 
 .hd b {
-  font-size: 16px;
+  font-size: 22px;
   flex: 2;
   text-align: center;
 }
@@ -280,15 +282,15 @@ button.secondary {
 }
 
 .hd img {
-  height: 30px;
+  height: 46px;
   width: auto;
 }
 
 .ft {
   display: flex;
   justify-content: space-between;
-  font-size: 10px;
-  margin-top: 6px;
+  font-size: 11px;
+  margin-top: 10px;
 }
 
 .ft span {
@@ -324,7 +326,7 @@ button.secondary {
   .preview .form {
     border: 0;
     padding: 0;
-    zoom: 1.08;
+    zoom: 1;
     margin: 0 auto;
     width: 680px;
     overflow: visible;
