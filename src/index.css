@@ -262,7 +262,7 @@ button.secondary {
 .form td.u {
   height: 190px;
   vertical-align: top;
-  text-align: left;
+  text-align: center;
   border-top: 1px solid #000;
   padding-top: 2px;
 }
