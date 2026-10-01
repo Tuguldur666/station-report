@@ -148,7 +148,7 @@ export function ReportPreview({ report, form, departedUldIds }: ReportPreviewPro
               <tr>
                 <td>{report?.destination}</td>
                 <td>{report?.classC}</td>
-                <td>
+                <td style={{ fontSize: 9 }}>
                   {report?.classY != null ? `${report.classY}+${report.infants ?? 0}INF` : ''}
                 </td>
                 <td>{report?.adults}</td>

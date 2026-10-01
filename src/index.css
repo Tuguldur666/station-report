@@ -261,8 +261,8 @@ button.secondary {
 
 .form td.u {
   height: 190px;
-  vertical-align: middle;
-  text-align: center;
+  vertical-align: top;
+  text-align: left;
   border-top: 1px solid #000;
   padding-top: 2px;
 }
