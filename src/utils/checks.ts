@@ -35,18 +35,35 @@ export function buildChecks(
   const children = report.children ?? 0
   const classC = report.classC ?? 0
   const classY = report.classY ?? 0
-  const passengers = adults + children
-  const cabinTotal = classC + classY
+  const r2 = form.passengerRow2
+  const r2Active = [
+    r2.destination,
+    r2.classC,
+    r2.classY,
+    r2.infants,
+    r2.adults,
+    r2.children,
+    ...r2.zones,
+  ].some((s) => s.trim() !== '')
+  const extraAdults = toNumber(r2.adults)
+  const extraChildren = toNumber(r2.children)
+  const extraC = toNumber(r2.classC)
+  const extraY = toNumber(r2.classY)
+  const passengers = adults + children + extraAdults + extraChildren
+  const cabinTotal = classC + classY + extraC + extraY
+  const r2Note = r2Active ? ' (incl. second row)' : ''
 
   push(
-    adults + children === cabinTotal ? 'ok' : 'er',
-    `Passengers: ${adults} adults + ${children} children = ${adults + children}; C ${classC} + Y ${classY} = ${cabinTotal}.`,
+    adults + children + extraAdults + extraChildren === cabinTotal ? 'ok' : 'er',
+    `Passengers: ${adults + extraAdults} adults + ${children + extraChildren} children = ${passengers}; C ${classC + extraC} + Y ${classY + extraY} = ${cabinTotal}${r2Note}.`,
   )
 
-  const zoneTotal = form.zones.reduce((sum, z) => sum + toNumber(z), 0)
+  const zoneTotal =
+    form.zones.reduce((sum, z) => sum + toNumber(z), 0) +
+    r2.zones.reduce((sum, z) => sum + toNumber(z), 0)
   push(
     zoneTotal === cabinTotal ? 'ok' : 'er',
-    `Zone total ${zoneTotal} ${zoneTotal === cabinTotal ? 'matches' : 'does not match'} passengers ${cabinTotal}.`,
+    `Zone total ${zoneTotal} ${zoneTotal === cabinTotal ? 'matches' : 'does not match'} passengers ${cabinTotal}${r2Note}.`,
   )
 
   push(

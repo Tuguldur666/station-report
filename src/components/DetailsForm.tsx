@@ -49,6 +49,75 @@ export function DetailsForm({ form, onChange, onPrint }: DetailsFormProps) {
         ))}
       </div>
 
+      <label>Passenger — second row (optional, fills the blank row on the form)</label>
+      <div className="row-4">
+        <div>
+          <label htmlFor="f-p2-dest">Dest</label>
+          <input
+            id="f-p2-dest"
+            value={form.passengerRow2.destination}
+            onChange={(e) => onChange({ passengerRow2: { ...form.passengerRow2, destination: e.target.value } })}
+          />
+        </div>
+        <div>
+          <label htmlFor="f-p2-c">C</label>
+          <input
+            id="f-p2-c"
+            value={form.passengerRow2.classC}
+            onChange={(e) => onChange({ passengerRow2: { ...form.passengerRow2, classC: e.target.value } })}
+          />
+        </div>
+        <div>
+          <label htmlFor="f-p2-y">Y</label>
+          <input
+            id="f-p2-y"
+            value={form.passengerRow2.classY}
+            onChange={(e) => onChange({ passengerRow2: { ...form.passengerRow2, classY: e.target.value } })}
+          />
+        </div>
+        <div>
+          <label htmlFor="f-p2-inf">Inf</label>
+          <input
+            id="f-p2-inf"
+            value={form.passengerRow2.infants}
+            onChange={(e) => onChange({ passengerRow2: { ...form.passengerRow2, infants: e.target.value } })}
+          />
+        </div>
+      </div>
+      <div className="row-2">
+        <div>
+          <label htmlFor="f-p2-ad">Adult</label>
+          <input
+            id="f-p2-ad"
+            value={form.passengerRow2.adults}
+            onChange={(e) => onChange({ passengerRow2: { ...form.passengerRow2, adults: e.target.value } })}
+          />
+        </div>
+        <div>
+          <label htmlFor="f-p2-ch">Child</label>
+          <input
+            id="f-p2-ch"
+            value={form.passengerRow2.children}
+            onChange={(e) => onChange({ passengerRow2: { ...form.passengerRow2, children: e.target.value } })}
+          />
+        </div>
+      </div>
+      <label>Second-row zones 0A / 0B / 0C / 0D</label>
+      <div className="row-4">
+        {form.passengerRow2.zones.map((z, i) => (
+          <input
+            key={i}
+            aria-label={`Second row zone 0${'ABCD'[i]}`}
+            value={z}
+            onChange={(e) => {
+              const zones = [...form.passengerRow2.zones] as ReportFormState['passengerRow2']['zones']
+              zones[i] = e.target.value
+              onChange({ passengerRow2: { ...form.passengerRow2, zones } })
+            }}
+          />
+        ))}
+      </div>
+
       <label htmlFor="f-sph">Special passenger info</label>
       <input
         id="f-sph"
@@ -69,6 +138,50 @@ export function DetailsForm({ form, onChange, onPrint }: DetailsFormProps) {
 
       <label htmlFor="f-brem">Baggage remarks</label>
       <input id="f-brem" value={form.baggageRemarks} onChange={(e) => onChange({ baggageRemarks: e.target.value })} />
+
+      <label>Baggage — second row (optional, fills the blank row on the form)</label>
+      <div className="row-5">
+        <div>
+          <label htmlFor="f-b2-dest">Dest</label>
+          <input
+            id="f-b2-dest"
+            value={form.baggageRow2.destination}
+            onChange={(e) => onChange({ baggageRow2: { ...form.baggageRow2, destination: e.target.value } })}
+          />
+        </div>
+        <div>
+          <label htmlFor="f-b2-pcs">Total pcs</label>
+          <input
+            id="f-b2-pcs"
+            value={form.baggageRow2.pcs}
+            onChange={(e) => onChange({ baggageRow2: { ...form.baggageRow2, pcs: e.target.value } })}
+          />
+        </div>
+        <div>
+          <label htmlFor="f-b2-kgs">Total kgs</label>
+          <input
+            id="f-b2-kgs"
+            value={form.baggageRow2.kgs}
+            onChange={(e) => onChange({ baggageRow2: { ...form.baggageRow2, kgs: e.target.value } })}
+          />
+        </div>
+        <div>
+          <label htmlFor="f-b2-xp">Excess pcs</label>
+          <input
+            id="f-b2-xp"
+            value={form.baggageRow2.excessPcs}
+            onChange={(e) => onChange({ baggageRow2: { ...form.baggageRow2, excessPcs: e.target.value } })}
+          />
+        </div>
+        <div>
+          <label htmlFor="f-b2-xk">Excess kgs</label>
+          <input
+            id="f-b2-xk"
+            value={form.baggageRow2.excessKgs}
+            onChange={(e) => onChange({ baggageRow2: { ...form.baggageRow2, excessKgs: e.target.value } })}
+          />
+        </div>
+      </div>
 
       <div className="row-2">
         <div>

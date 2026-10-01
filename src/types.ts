@@ -37,6 +37,26 @@ export interface ParsedReport {
 
 export type DepartedFilter = 'B' | 'A'
 
+/** Optional second (hand-written) row of the Passenger section. All strings; blank = unused. */
+export interface PassengerSecondRow {
+  destination: string
+  classC: string
+  classY: string
+  infants: string
+  adults: string
+  children: string
+  zones: [string, string, string, string]
+}
+
+/** Optional second (hand-written) row of the Baggage section. All strings; blank = unused. */
+export interface BaggageSecondRow {
+  destination: string
+  pcs: string
+  kgs: string
+  excessPcs: string
+  excessKgs: string
+}
+
 export interface ReportFormState {
   date: string
   manager: string
@@ -44,6 +64,8 @@ export interface ReportFormState {
   eta: string
   delay: string
   zones: [string, string, string, string]
+  passengerRow2: PassengerSecondRow
+  baggageRow2: BaggageSecondRow
   specialPassengerInfo: string
   excessBagPcs: string
   excessBagKgs: string

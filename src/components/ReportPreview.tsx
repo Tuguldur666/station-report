@@ -58,6 +58,9 @@ const isNil = (value: string | null | undefined) =>
 export function ReportPreview({ report, form, departedUldIds }: ReportPreviewProps) {
   const arriving = report?.arrivingUlds.map((u) => u.id) ?? []
   const mailKg = report?.mailKg
+  const p2 = form.passengerRow2
+  const b2 = form.baggageRow2
+  const p2y = p2.classY ? `${p2.classY}${p2.infants ? `+${p2.infants}INF` : ''}` : ''
 
   return (
     <section className="card preview">
@@ -160,16 +163,16 @@ export function ReportPreview({ report, form, departedUldIds }: ReportPreviewPro
                 <td>{form.zones[3]}</td>
               </tr>
               <tr>
-                <td />
-                <td />
-                <td />
-                <td />
-                <td />
-                <td />
-                <td />
-                <td />
-                <td />
-                <td />
+                <td>{p2.destination}</td>
+                <td>{p2.classC}</td>
+                <td style={{ fontSize: 9 }}>{p2y}</td>
+                <td>{p2.adults}</td>
+                <td>{p2.children}</td>
+                <td>{p2.infants}</td>
+                <td>{p2.zones[0]}</td>
+                <td>{p2.zones[1]}</td>
+                <td>{p2.zones[2]}</td>
+                <td>{p2.zones[3]}</td>
               </tr>
               <tr>
                 <td className="g">Total</td>
@@ -217,11 +220,11 @@ export function ReportPreview({ report, form, departedUldIds }: ReportPreviewPro
                 <td>{form.excessBagKgs}</td>
               </tr>
               <tr>
-                <td />
-                <td />
-                <td />
-                <td />
-                <td />
+                <td>{b2.destination}</td>
+                <td>{b2.pcs}</td>
+                <td>{b2.kgs}</td>
+                <td style={{ fontSize: 9 }}>{b2.excessPcs}</td>
+                <td>{b2.excessKgs}</td>
               </tr>
               <tr>
                 <td className="g">Total</td>

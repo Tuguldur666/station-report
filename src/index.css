@@ -151,6 +151,12 @@ textarea {
   gap: 8px;
 }
 
+.row-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
 button {
   font: inherit;
   font-weight: 600;
