@@ -247,6 +247,13 @@ button.secondary {
   vertical-align: top;
 }
 
+.form td.nil {
+  text-align: center !important;
+  vertical-align: middle !important;
+  font-size: 15px;
+  font-weight: 700;
+}
+
 .form tr.sp td,
 .form tr.sp th {
   height: 32px;
@@ -282,8 +289,12 @@ button.secondary {
 }
 
 .hd img {
-  height: 46px;
+  height: 28px;
   width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  display: block;
+  margin-left: auto;
 }
 
 .ft {

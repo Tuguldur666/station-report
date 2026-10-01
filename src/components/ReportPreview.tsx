@@ -52,6 +52,9 @@ const REMARKS_WIDTHS = [70, 70, 77, 78, 309]
  * Printable Form No. 10 — markup ported 1:1 from the
  * `Station report builder.html` prototype's `pv()` function.
  */
+const isNil = (value: string | null | undefined) =>
+  (value ?? '').trim().toUpperCase() === 'NIL';
+
 export function ReportPreview({ report, form, departedUldIds }: ReportPreviewProps) {
   const arriving = report?.arrivingUlds.map((u) => u.id) ?? []
   const mailKg = report?.mailKg
@@ -113,7 +116,9 @@ export function ReportPreview({ report, form, departedUldIds }: ReportPreviewPro
               </tr>
               <tr>
                 <th colSpan={2}>Delay Information</th>
-                <td colSpan={6}>{form.delay}</td>
+                <td colSpan={6} className={isNil(form.delay) ? 'nil' : ''}>
+                  {form.delay}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -172,7 +177,7 @@ export function ReportPreview({ report, form, departedUldIds }: ReportPreviewPro
               </tr>
               <tr className="sp">
                 <th colSpan={2}>Special passenger info</th>
-                <td colSpan={9} className="l">
+                <td colSpan={9} className={isNil(form.specialPassengerInfo) ? 'nil' : 'l'}>
                   {form.specialPassengerInfo}
                 </td>
               </tr>
@@ -200,7 +205,7 @@ export function ReportPreview({ report, form, departedUldIds }: ReportPreviewPro
                 <th>Kgs</th>
                 <th>Pcs</th>
                 <th>Kgs</th>
-                <td rowSpan={4} className="l">
+                <td rowSpan={4} className={isNil(form.baggageRemarks) ? 'nil' : 'l'}>
                   {form.baggageRemarks}
                 </td>
               </tr>
@@ -243,7 +248,7 @@ export function ReportPreview({ report, form, departedUldIds }: ReportPreviewPro
               <tr>
                 <th>Pcs</th>
                 <th>Kgs</th>
-                <td rowSpan={4} className="l">
+                <td rowSpan={4} className={isNil(form.cargoRemarks) ? 'nil' : 'l'}>
                   {form.cargoRemarks}
                 </td>
               </tr>
@@ -282,7 +287,7 @@ export function ReportPreview({ report, form, departedUldIds }: ReportPreviewPro
               <tr>
                 <th>Pcs</th>
                 <th>Kgs</th>
-                <td rowSpan={4} className="l">
+                <td rowSpan={4} className={mailKg === 0 ? 'nil' : 'l'}>
                   {mailKg === 0 ? 'NIL' : ''}
                 </td>
               </tr>
@@ -323,7 +328,7 @@ export function ReportPreview({ report, form, departedUldIds }: ReportPreviewPro
                 <td>{form.fuelTrip}</td>
                 <td>{form.fuelBlock}</td>
                 <td />
-                <td>NIL</td>
+                <td className="nil">NIL</td>
               </tr>
             </tbody>
           </table>
@@ -366,7 +371,7 @@ export function ReportPreview({ report, form, departedUldIds }: ReportPreviewPro
             <tbody>
               <tr>
                 <th>Other info</th>
-                <td className="l oi">{form.otherInfo}</td>
+                <td className={`oi ${isNil(form.otherInfo) ? 'nil' : 'l'}`}>{form.otherInfo}</td>
               </tr>
             </tbody>
           </table>
